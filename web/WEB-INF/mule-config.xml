@@ -13,7 +13,7 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 http://www.mulesoft.org/schema/mule/jersey http://www.mulesoft.org/schema/mule/jersey/current/mule-jersey.xsd
 http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd">
 
-    <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="1231" doc:name="HTTP Listener Configuration"/>
+    <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8800" doc:name="HTTP Listener Configuration"/>
 
     
    <flow name="my_first_projectFlow">
@@ -33,10 +33,10 @@ http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/
     
     
     <!-- SOAP/CXF -->
-    <flow name="CTService" doc:name="CTService_Flow">
-        <http:listener config-ref="HTTP_Listener_Configuration" path="/API/CTService" doc:name="HTTP"/>
-			<cxf:jaxws-service serviceClass="com.my.API.CT"/>
-            <component class="com.my.API.CT"/>
+    <flow name="PartnerService" doc:name="PartnerService_Flow">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/PartnerServices" doc:name="HTTP"/>
+            <cxf:jaxws-service serviceClass="com.my.API.Partner"/>
+            <component class="com.my.API.Partner"/>
         <logger message="REstFullll...." level="INFO" doc:name="Logger"/>
     </flow>
 </mule>

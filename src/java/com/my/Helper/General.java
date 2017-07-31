@@ -1,5 +1,6 @@
 package com.my.Helper;
 
+import java.io.Serializable;
 import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -14,6 +15,21 @@ public class General {
     public General(){
         
     }
+    
+    public static class MessageID implements Serializable{
+        private static final long serialVersionUID = -5577579081118070434L;
+        private String messageID;
+        public MessageID(String param){
+            this.messageID = param;
+        }
+        public void setMessageID(String param){
+            this.messageID = param;
+        }
+        public String getMessageID(){
+            return messageID;
+        }
+    } 
+    
     
     public static String explode(String row, String str, Integer i){        
         String[] exp = row.split(str);

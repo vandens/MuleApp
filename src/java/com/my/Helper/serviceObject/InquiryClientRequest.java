@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="InquiryClient", namespace="http://www.maybank.co.id/PartnerServices")
+@XmlRootElement(name="InquiryClient", namespace="")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class InquiryClientRequest {
     @XmlElement(name = "ChannelHeader", required=true)

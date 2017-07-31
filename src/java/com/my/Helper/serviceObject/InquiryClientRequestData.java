@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="InquiryClientRequest")
 @SOAPBinding(parameterStyle=SOAPBinding.ParameterStyle.BARE)
 public class InquiryClientRequestData {
+    @XmlElement(name="partnerID", required=true)
+    public String partnerID;
     @XmlElement(name="clientID", required=true)
     public String clientID;
 }

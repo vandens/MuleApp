@@ -4,8 +4,6 @@ package com.my.Service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -27,7 +25,6 @@ public class SoapClient {
     protected Integer  _timeout;
     public String   _rawRequest;
     public String   _rawResponse;
-    public static boolean _isTimeout = false;
     
     public SoapClient(){}
     
@@ -58,7 +55,6 @@ public class SoapClient {
             SOAPPart soapPart               = soapMessage.getSOAPPart();
             SOAPBody soapBody               = soapMessage.getSOAPBody(); 
             SOAPEnvelope envelope           = soapPart.getEnvelope();
-            
             //add namespace
             envelope.addNamespaceDeclaration("ns1", _endpoint);
             
@@ -75,21 +71,14 @@ public class SoapClient {
             soapMessage.writeTo(req);
             this._rawRequest            = new String(req.toByteArray());
             //post request
-            SOAPMessage soapResponse = null;
-            try {
-                soapResponse = soapConnection.call(soapMessage, _endpoint);
-            } catch (SOAPException ex) {
-                _isTimeout  = true;
-                System.out.println("Masuk sinih");
-                // tambahin soap fault disini
-            }
+            SOAPMessage soapResponse    = soapConnection.call(soapMessage, _endpoint);
 
             //set response message - raw data
             ByteArrayOutputStream res   = new ByteArrayOutputStream();
             soapResponse.writeTo(res);
             this._rawResponse           = new String(res.toByteArray());
             
-            //SOAPMessage x = soapResponse;
+            SOAPMessage x = soapResponse;
             soapConnection.close();
     }
     
@@ -131,30 +120,5 @@ public class SoapClient {
         return this._rawResponse;
     }
     
-    
-    /*
-    
-    public static void main(String[] args){
-        InquiryClient IC = new InquiryClient();
-        IC.customer_id   = "LEX-002";
-        
-        String url          = "http://10.225.16.55:8080/simulator/CargoService";
-        String classname    = "com.myb.Obj.InquiryClient";
-        Integer timeout     = 30;
-        SoapClient SC      = new SoapClient(url, classname, IC, timeout);
-        
-        try {
-            SC.call();
-        } catch (SOAPException | JAXBException | ClassNotFoundException | IOException ex) {
-            Logger.getLogger(SoapClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        System.out.println("Request:");
-        System.out.println(SC.getRawRequest());
-        System.out.println("Response : ");
-        System.out.println(SC.getRawResponse());
-        
-    }
-    */
     
 }

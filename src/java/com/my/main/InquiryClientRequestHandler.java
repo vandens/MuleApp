@@ -12,7 +12,6 @@ import static com.my.Helper.MarshallUnMarshall.Marshalling;
 import static com.my.Helper.MarshallUnMarshall.UnMarshalling;
 import com.my.Service.CitiCargo.CitiCargo;
 import com.my.Service.CitiCargo.CitiCargo_InquiryClientResponse;
-import static com.my.Service.SoapClient._isTimeout;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -47,9 +46,11 @@ public class InquiryClientRequestHandler {
         try {
             
             _clientRawRequest = Marshalling(RequestData,"com.my.Helper.serviceObject.InquiryClientRequest");            
-            if(RequestData.channelHeader.partnerID.equalsIgnoreCase("CITICARGO")){                
+            if(RequestData.inquiryClientRequestData.partnerID.equalsIgnoreCase("CITICARGO")){                
                 CitiCargo citiCargo     = new CitiCargo();
                 citiCargo.InquiryClient(RequestData.inquiryClientRequestData.clientID);
+                _serverRawRequest       = citiCargo.getrawRequest();
+                _serverRawResponse      = citiCargo.getrawResponse();
                 CitiCargo_InquiryClientResponse x = (CitiCargo_InquiryClientResponse) UnMarshalling(_serverRawResponse, "com.my.Service.CitiCargo.CitiCargo_InquiryClientResponse");
                 
                 //set response
@@ -98,7 +99,6 @@ public class InquiryClientRequestHandler {
             }
                       
         }finally{
-            System.out.println("TIMEOUT : "+_isTimeout);
             log.log(Level.INFO, "_clientRequest : {0}", _clientRawRequest);
             log.log(Level.INFO, "_serverRequest : {0}", _serverRawRequest);
             log.log(Level.INFO, "_serverResponse : {0}", _serverRawResponse); 
@@ -114,12 +114,12 @@ public class InquiryClientRequestHandler {
             ChannelHeader ch    = new ChannelHeader();
             ch.channelID = "asdf";
             ch.messageID = "fdadf";
-            ch.partnerID = "CITICARGO";
             ch.reference = "234567";
             ch.transactiondate  = dateToString(new Date(),"ymd");
             ch.transactiontime  = dateToString(new Date(),"HHmmss");
             
-            InquiryClientRequestData ic = new InquiryClientRequestData();
+            InquiryClientRequestData ic = new InquiryClientRequestData();            
+            ic.partnerID        = "CITICARGO";
             ic.clientID         = "LPX-0001";
             
             InquiryClientRequest icr = new InquiryClientRequest();

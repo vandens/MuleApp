@@ -13,8 +13,6 @@ public class ChannelHeader {
     public List<AdditionalHeader> additionalHeader = new ArrayList();
     @XmlElement(name="channelID")
     public String channelID;
-    @XmlElement(name="partnerID")
-    public String partnerID;
     @XmlElement(name="reference")
     public String reference;
     @XmlElement(name="sequenceno")

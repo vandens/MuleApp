@@ -71,20 +71,28 @@ public class CitiCargo extends SoapClient{
         this.setrawResponse(sc._rawResponse);
     }
     
-    public void SendPaymentReport(){
-            /*
-            <payref>20170606M4KQ62ATY</payref>
-            <paydate>20170606</paydate>
-            <creditto>2138273770</creditto>
-            <customer_id>CXUH8MkiLHlZ1i9sim1aXMJ2PhYiIBc43Ik9jmhuw60=</customer_id>
-            <message>CP LCG-0003</message>
-            <amount>zUc2p9NVv6QTHhYu0ztaziTQdCbzcMb8UA1hheKF0Ls=</amount>
-            <ccy>IDR</ccy>
-            <agent_decryptcheck>/WXJ57iDggh7/tTdoypAZgValTsLbIo+dAaninh3t30=</agent_decryptcheck>
-            <field_checksum>c7e9f7282af3c0ec687e0dcab4146de1</field_checksum>
-            <first_sent_time>20170606045955</first_sent_time>
-            <last_sent_time>20170606045955</last_sent_time>
-            */
+    /*
+        <payref>20170606M4KQ62ATY</payref>
+        <paydate>20170606</paydate>
+        <creditto>2138273770</creditto>
+        <customer_id>CXUH8MkiLHlZ1i9sim1aXMJ2PhYiIBc43Ik9jmhuw60=</customer_id>
+        <message>CP LCG-0003</message>
+        <amount>zUc2p9NVv6QTHhYu0ztaziTQdCbzcMb8UA1hheKF0Ls=</amount>
+        <ccy>IDR</ccy>
+        <agent_decryptcheck>/WXJ57iDggh7/tTdoypAZgValTsLbIo+dAaninh3t30=</agent_decryptcheck>
+        <field_checksum>c7e9f7282af3c0ec687e0dcab4146de1</field_checksum>
+        <first_sent_time>20170606045955</first_sent_time>
+        <last_sent_time>20170606045955</last_sent_time>
+    */
+    public void SendPaymentReport(String PaymentRef, 
+                                  String CustomerID, 
+                                  String PaymentDate, 
+                                  String BenefAcctNo,
+                                  String Ccy,
+                                  String Amount,
+                                  String Message){
+        
+            
     }
     
     

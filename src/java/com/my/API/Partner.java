@@ -38,16 +38,48 @@ public class Partner {
         //}else{
             
             InquiryClientRequestHandler request = new InquiryClientRequestHandler();
-                
-                messageID.put(RequestData.channelHeader.messageID, new MessageID(RequestData.channelHeader.messageID));
-
-                request.InquiryClientService(RequestData);
-                
-                return request._inquiryClientResponse;
-            
-            
+            messageID.put(RequestData.channelHeader.messageID, new MessageID(RequestData.channelHeader.messageID));
+            request.InquiryClientService(RequestData);
+            return request._inquiryClientResponse;
             
         //}
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "InquiryPayment")
+    public String InquiryPayment() {
+        //TODO write your implementation code here:
+        return null;
+    }
+    
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "SyncPayment")
+    public String SyncPayment() {
+        //TODO write your implementation code here:
+        return null;
+    }
+
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "SyncPaymentStatus")
+    public String SyncPaymentStatus() {
+        //TODO write your implementation code here:
+        return null;
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "PaymentReversal")
+    public String PaymentReversal() {
+        //TODO write your implementation code here:
+        return null;
     }
 }
 

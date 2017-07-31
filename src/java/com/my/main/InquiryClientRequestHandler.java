@@ -57,9 +57,7 @@ public class InquiryClientRequestHandler {
                 ClientID             = RequestData.inquiryClientRequestData.clientID;
                 ClientName           = x.InquiryClientResult.Respond[1];
                 //ClientStatus         = x.InquiryClientResult.Respond[2];
-                ClientDesc           = x.InquiryClientResult.Respond[3];        
-                
-            
+                ClientDesc           = x.InquiryClientResult.Respond[3]; 
             }
             
             grd.responseCode            = "00";
@@ -130,7 +128,6 @@ public class InquiryClientRequestHandler {
             
             
             m.InquiryClientService(icr);
-            
             
     }
     

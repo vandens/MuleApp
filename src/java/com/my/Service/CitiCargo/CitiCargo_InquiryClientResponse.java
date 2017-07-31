@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="InquiryClientResponse", namespace="http://10.225.16.55:8080/simulator/CargoService")
+@XmlRootElement(name="InquiryClientResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CitiCargo_InquiryClientResponse {
     @XmlElement(name="InquiryClientResult")

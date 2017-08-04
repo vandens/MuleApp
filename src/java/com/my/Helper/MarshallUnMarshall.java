@@ -50,7 +50,7 @@ public class MarshallUnMarshall {
     }
     
     public static Object UnMarshalling(String XmlString, String ClassName) throws SOAPException, IOException, JAXBException, ClassNotFoundException{
-        System.out.println("UnMarshalling : "+XmlString.toString());
+        
         SOAPMessage message         = MessageFactory.newInstance().createMessage(null,
                                                                                     new ByteArrayInputStream(XmlString.getBytes()));
         Unmarshaller unmarshaller   = JAXBContext.newInstance(Class.forName(ClassName)).createUnmarshaller();

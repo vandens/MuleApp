@@ -3,6 +3,9 @@ package com.my.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLStreamHandler;
 import java.util.Map;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -23,8 +26,10 @@ public class SoapClient {
     protected String   _class;
     protected Object   _data;
     protected Integer  _timeout;
+    public boolean _isTimeout = false;
     public String   _rawRequest;
     public String   _rawResponse;
+    
     
     public SoapClient(){}
     
@@ -45,10 +50,26 @@ public class SoapClient {
     
     public void call() throws SOAPException, JAXBException, ClassNotFoundException, IOException{
         
+            SOAPConnection soapConnection = null;
+            
+            try{
             //Create Soap Connection
             SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
-            SOAPConnection soapConnection = soapConnectionFactory.createConnection();
+            soapConnection = soapConnectionFactory.createConnection();
 
+            // Only ever need one URL
+            URL endpoint = new URL (null, _endpoint, new URLStreamHandler () {
+                protected URLConnection openConnection (URL url) throws IOException {
+                // The url is the parent of this stream handler, so must create clone
+                URL clone = new URL (url.toString ());
+                URLConnection urlConnection = clone.openConnection ();
+                // If you cast to HttpURLConnection, you can set redirects
+                // connection.setInstanceFollowRedirects (false); // no redirs
+                urlConnection.setConnectTimeout (_timeout * 1000);      
+                urlConnection.setReadTimeout (_timeout * 1000);
+                return urlConnection;
+            }});
+            
             //Create Soap Message
             MessageFactory messageFactory   = MessageFactory.newInstance();
             SOAPMessage soapMessage         = messageFactory.createMessage();
@@ -70,8 +91,9 @@ public class SoapClient {
             ByteArrayOutputStream req   = new ByteArrayOutputStream();
             soapMessage.writeTo(req);
             this._rawRequest            = new String(req.toByteArray());
+            
             //post request
-            SOAPMessage soapResponse    = soapConnection.call(soapMessage, _endpoint);
+            SOAPMessage soapResponse    = soapConnection.call(soapMessage, endpoint);
 
             //set response message - raw data
             ByteArrayOutputStream res   = new ByteArrayOutputStream();
@@ -79,7 +101,22 @@ public class SoapClient {
             this._rawResponse           = new String(res.toByteArray());
             
             SOAPMessage x = soapResponse;
-            soapConnection.close();
+            }catch(Exception ex){
+                System.out.println("EXC : "+ex.toString());
+                this._isTimeout     = true;
+            }finally{
+                
+                try {
+                    if (soapConnection != null) {
+                        soapConnection.close();
+                    }
+                    
+                    System.out.println("EXCEP : "+soapConnection.toString());
+                } catch (SOAPException e) {
+                    System.out.println("EXCEP : "+e.toString());
+                }
+
+            }
     }
     
     

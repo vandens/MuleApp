@@ -103,8 +103,6 @@ public class InquiryClientRequestHandler {
             log.log(Level.INFO, "_clientResponse : {0}", _clientRawResponse);
 
         }
-        
-        
     }
     
     public static void main(String[] args){

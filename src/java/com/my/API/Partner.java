@@ -53,31 +53,32 @@ public class Partner {
         //TODO write your implementation code here:
         return null;
     }
+        
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "SyncPaymentStatus")
+    public String InquiryStatus() {
+        //TODO write your implementation code here:
+        return null;
+    }
+    
     
     /**
      * Web service operation
      */
     @WebMethod(operationName = "SyncPayment")
-    public String SyncPayment() {
+    public String PaymentSync() {
         //TODO write your implementation code here:
         return null;
     }
 
-
-    /**
-     * Web service operation
-     */
-    @WebMethod(operationName = "SyncPaymentStatus")
-    public String SyncPaymentStatus() {
-        //TODO write your implementation code here:
-        return null;
-    }
 
     /**
      * Web service operation
      */
     @WebMethod(operationName = "PaymentReversal")
-    public String PaymentReversal() {
+    public String PaymentRevers() {
         //TODO write your implementation code here:
         return null;
     }

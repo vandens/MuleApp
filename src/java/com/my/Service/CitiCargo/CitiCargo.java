@@ -63,12 +63,14 @@ public class CitiCargo extends SoapClient{
         request.put("ClassObj", "com.my.Service.CitiCargo.CitiCargo_InquiryClientRequestData");
         request.put("TimeOut", Integer.parseInt(_wait_timeout));
         request.put("RequestData", inquiry);
-        
-        SoapClient sc   = new SoapClient(request);
-        sc.call();
-        
-        this.setrawRequest(sc._rawRequest);
-        this.setrawResponse(sc._rawResponse);
+        try{
+            SoapClient sc   = new SoapClient(request);
+            sc.call();
+            this.setrawRequest(sc._rawRequest);
+            this.setrawResponse(sc._rawResponse);
+        }catch(Exception ex){
+            System.out.println("TIMEOUT : "+ex.toString());
+        }
     }
     
     /*

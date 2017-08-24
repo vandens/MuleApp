@@ -3,7 +3,7 @@ package com.my.Helper.serviceObject;
 
 /**
  *
- * @author TP32447
+ * @author Vandens mc Maddens
  */
 public class ServiceObject{
     

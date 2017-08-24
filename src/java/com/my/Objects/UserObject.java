@@ -1,15 +1,17 @@
 
-package com.my.Models;
+package com.my.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
  *
- * @author TP32447
+ * @author Vandens mc Maddens
  */
 @Table(name="M_USER")
-public class ModelUser {
+public class UserObject {
     
     @Column(name="USER_ID", length=35)          private	String	user_id;
     @Column(name="USER_FULLNAME", length=100)	private	String	user_fullname;
@@ -28,4 +30,5 @@ public class ModelUser {
     public String get_user_password   (){ return user_password; }
     public Integer get_user_status    (){ return user_status; }
     public Integer get_user_islogin   (){ return user_islogin; }
+    
 }

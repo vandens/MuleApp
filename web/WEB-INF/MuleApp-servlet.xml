@@ -24,32 +24,22 @@
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
 ">
-
-    <context:property-placeholder location="config.properties"/>  
-    <context:component-scan base-package="com.my.Helper.interfaces.SyncLog_Iface"/>    
-    <context:component-scan base-package="com.may.Helper.dao"/> 
-    <context:annotation-config/>
-    <tx:annotation-driven/>
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-          p:driverClassName="${db_driver}"
-          p:url="${db_url}"
-          p:username="${db_user}"
-          p:password="${db_pass}"/>
     
-    <!--
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
-          p:dataSource-ref="dataSource"
-          p:configLocation="classpath:hibernate.cfg.xml"/>
-
-    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"
-          p:sessionFactory-ref="sessionFactory"/>
-    -->
     
-    <!-- Definition for m_user bean -->
-    <bean id="UserModel" class="com.my.Models.UserModel">
-        <property name="dataSource" ref="dataSource" />
-    </bean>
-    <bean id="InterfaceLogModel" class="com.my.Models.InterfaceLogModel">
-        <property name="dataSource" ref="dataSource" />
-    </bean>
+    <context:component-scan base-package="com.my.Controllers"></context:component-scan>
+    
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+      <property name="prefix" value="/WEB-INF/jsp/"/>
+      <property name="suffix" value=".jsp"/>
+   </bean>
+    
+   <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+      <property name="mappings">
+         <props>
+            <prop key="/hello">helloController</prop>		   
+         </props>
+      </property>
+   </bean>
+   <bean id="helloController" class="com.my.Controllers.HelloController"/> 
+
 </beans>

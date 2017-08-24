@@ -1,19 +1,19 @@
 
 package com.my.Helper.interfaces;
 
-import com.my.Models.ModelUser;
+import com.my.Objects.UserObject;
 import java.util.HashMap;
 import java.util.List;
 
 /**
  *
- * @author TP32447
+ * @author Vandens mc Maddens
  */
 public interface User_Iface {
-    ModelUser insert (ModelUser data);
-    ModelUser update (Integer key, ModelUser data);
-    ModelUser detail (Integer key);
-    List<ModelUser> select (Integer key);
-    List<ModelUser> find (HashMap filter, Integer offset, Integer limit, String OrderField, String Order);
+    UserObject insert (UserObject data);
+    UserObject update (Integer key, UserObject data);
+    UserObject detail (Integer key);
+    List<UserObject> select (Integer key);
+    List<UserObject> find (HashMap filter, Integer offset, Integer limit, String OrderField, String Order);
     
 }

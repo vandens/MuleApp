@@ -1,20 +1,20 @@
 
 package com.my.Helper.interfaces;
 
-import com.my.Models.ModelInterfaceLog;
+import com.my.Models.InterfaceLogModel;
 import java.util.HashMap;
 import java.util.List;
 
 /**
  *
- * @author TP32447
+ * @author Vandens mc Maddens
  */
 public interface InterfaceLog_Iface {
     
-    ModelInterfaceLog insert (ModelInterfaceLog data);
-    ModelInterfaceLog update (Integer key, ModelInterfaceLog data);
-    ModelInterfaceLog detail (Integer key);
-    List<ModelInterfaceLog> select (Integer key);
-    List<ModelInterfaceLog> find (HashMap filter, Integer offset, Integer limit, String OrderField, String Order);
+    InterfaceLogModel insert (InterfaceLogModel data);
+    InterfaceLogModel update (Integer key, InterfaceLogModel data);
+    InterfaceLogModel detail (Integer key);
+    List<InterfaceLogModel> select (Integer key);
+    List<InterfaceLogModel> find (HashMap filter, Integer offset, Integer limit, String OrderField, String Order);
     
 }

@@ -1,5 +1,5 @@
 
-package com.my.Models;
+package com.my.Objects;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -9,11 +9,11 @@ import javax.persistence.Table;
 
 /**
  *
- * @author TP32447
+ * @author Vandens mc Maddens
  */
 //@Entity
 @Table(name="T_PAYMENT_TRANSFER")
-public class ModelPaymentTransfer implements Serializable{
+public class PaymentTransferObject implements Serializable{
     
     @Column(name="TRANSFER_ID", length=25) 
     private String transfer_id;
@@ -217,7 +217,5 @@ public class ModelPaymentTransfer implements Serializable{
     public String get_reversal_desc()                     { return reversal_desc; }
     public String get_raw_request()                       { return raw_request; }
     public String get_raw_response()                      { return raw_response; }
-
-
 
 }

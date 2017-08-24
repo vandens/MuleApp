@@ -1,12 +1,12 @@
 
 package com.my.Helper.dao;
 
-import com.my.Models.ModelSyncLog;
+import com.my.Objects.SyncLogObject;
 
 /**
  *
- * @author TP32447
+ * @author Vandens mc Maddens
  */
-public class SyncLogDAO extends BaseDaoHibernate<ModelSyncLog>{
+public class SyncLogDAO extends BaseDaoHibernate<SyncLogObject>{
     
 }

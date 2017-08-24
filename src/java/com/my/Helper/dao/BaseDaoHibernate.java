@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
- * @author TP32447
+ * @author Vandens mc Maddens
  */
 public class BaseDaoHibernate<T> {
 

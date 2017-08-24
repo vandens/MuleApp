@@ -22,13 +22,13 @@ import javax.xml.soap.SOAPPart;
 
 public class SoapClient {
     
-    protected String   _endpoint;
-    protected String   _class;
-    protected Object   _data;
-    protected Integer  _timeout;
-    public boolean _isTimeout = false;
-    public String   _rawRequest;
-    public String   _rawResponse;
+    protected String    _endpoint;
+    protected String    _class;
+    protected Object    _data;
+    protected Integer   _timeout;
+    public boolean      _isTimeout = false;
+    public String       _rawRequest;
+    public String       _rawResponse;
     
     
     public SoapClient(){}
@@ -101,7 +101,7 @@ public class SoapClient {
             this._rawResponse           = new String(res.toByteArray());
             
             SOAPMessage x = soapResponse;
-            }catch(Exception ex){
+            }catch(SOAPException ex){
                 System.out.println("EXC : "+ex.toString());
                 this._isTimeout     = true;
             }finally{
@@ -111,9 +111,8 @@ public class SoapClient {
                         soapConnection.close();
                     }
                     
-                    System.out.println("EXCEP : "+soapConnection.toString());
                 } catch (SOAPException e) {
-                    System.out.println("EXCEP : "+e.toString());
+                    System.out.println("Final masuk excep : "+e.toString());
                 }
 
             }

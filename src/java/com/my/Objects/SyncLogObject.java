@@ -1,5 +1,5 @@
 
-package com.my.Models;
+package com.my.Objects;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -7,15 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
  *
- * @author TP32447
+ * @author Vandens mc Maddens
  */
 
 @Entity
 @Table(name="T_SYNC_LOG")
-public class ModelSyncLog implements Serializable{
+public class SyncLogObject implements Serializable{
     
      @Id @GeneratedValue
      @Column(name="AUTO", length=100)

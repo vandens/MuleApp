@@ -1,13 +1,13 @@
 
 package com.my.Helper.interfaces;
 
-import com.my.Models.ModelPayment;
+import com.my.Models.PaymentModel;
 import java.util.HashMap;
 import java.util.List;
 
 /**
  *
- * @author TP32447
+ * @author Vandens mc Maddens
  */
 
 public interface Payment_Iface {
@@ -17,10 +17,10 @@ public interface Payment_Iface {
      * @param data
      * @return
      */
-    ModelPayment insert (ModelPayment data);
-    ModelPayment update (Integer key, ModelPayment data);
-    ModelPayment detail (Integer key);
-    List<ModelPayment> select (Integer key);
-    List<ModelPayment> find (HashMap filter, Integer offset, Integer limit, String OrderField, String Order);
+    PaymentModel insert (PaymentModel data);
+    PaymentModel update (Integer key, PaymentModel data);
+    PaymentModel detail (Integer key);
+    List<PaymentModel> select (Integer key);
+    List<PaymentModel> find (HashMap filter, Integer offset, Integer limit, String OrderField, String Order);
     
 }

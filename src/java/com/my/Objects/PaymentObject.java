@@ -1,5 +1,5 @@
 
-package com.my.Models;
+package com.my.Objects;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -10,11 +10,11 @@ import javax.persistence.Table;
 
 /**
  *
- * @author TP32447
+ * @author Vandens mc Maddens
  */
 //@Entity
 @Table(name="T_PAYMENT")
-public class ModelPayment implements Serializable{
+public class PaymentObject implements Serializable{
     
     
     @Column(name="PAY_NUMBER",unique=true,nullable=false,length=17)
@@ -101,28 +101,5 @@ public class ModelPayment implements Serializable{
     public String get_pay_updatetime	(){ return pay_updatetime;}
     public String get_uid               (){ return uid;}
 
+   
 }
-
-
-/*
-| pay_number
-| pay_subject
-| channel_id
-| customer_id
-| user_id
-| feature_id
-| pay_efdate
-| pay_type
-| pay_ccy
-| pay_amount
-| pay_desc
-| pay_message
-| pay_add_message
-| pay_status
-| pay_sync
-| pay_addby
-| pay_addtime
-| pay_updateby
-| pay_updatetime
-| uid
-*/

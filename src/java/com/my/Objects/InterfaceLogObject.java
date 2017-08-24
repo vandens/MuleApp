@@ -1,5 +1,5 @@
 
-package com.my.Models;
+package com.my.Objects;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,14 +11,16 @@ import javax.persistence.Table;
 
 /**
  *
- * @author TP32447
+ * @author Vandens mc Maddens
  */
 @Entity
 @Table(name="T_INTERFACE_LOG")
-public class ModelInterfaceLog implements Serializable{
+public class InterfaceLogObject implements Serializable, Cloneable{
      @Id @GeneratedValue
      @Column(name="AUTO", length =100)
      private Integer auto;
+     @Column(name="CHANNEL_ID", length =35)
+     private String channel_id;
      @Column(name="UID", length =50)
      private String uid;
      @Column(name="LOG_DATE", length =0)
@@ -41,9 +43,15 @@ public class ModelInterfaceLog implements Serializable{
      private String send_time;
      @Column(name="RESPONSE_TIME", length =0)
      private String response_time;
+     
+     
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
     public void set_auto            (Integer param) { this.auto         = param; }
     public void set_uid             (String param)  { this.uid          = param; }
+    public void set_channel_id      (String param)  { this.channel_id   = param; }
     public void set_log_date        (Date param)    { this.log_date	= param; }
     public void set_pay_number      (String param)  { this.pay_number	= param; }
     public void set_feature_id      (String param)  { this.feature_id	= param; }
@@ -57,6 +65,7 @@ public class ModelInterfaceLog implements Serializable{
 
     public Integer get_auto           ()  { return auto         ; }
     public String get_uid             ()  { return uid          ; }
+    public String get_channel_id      ()  { return channel_id   ; }
     public Date get_log_date          ()  { return log_date	; }
     public String get_pay_number      ()  { return pay_number	; }
     public String get_feature_id      ()  { return feature_id	; }
@@ -67,4 +76,5 @@ public class ModelInterfaceLog implements Serializable{
     public String get_error_desc      ()  { return error_desc	; }
     public String get_send_time       ()  { return send_time	; }
     public String get_response_time   ()  { return response_time; }
+    
 }

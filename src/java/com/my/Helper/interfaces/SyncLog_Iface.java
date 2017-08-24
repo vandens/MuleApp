@@ -5,21 +5,21 @@
  */
 package com.my.Helper.interfaces;
 
-import com.my.Models.ModelSyncLog;
+import com.my.Objects.SyncLogObject;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
 /**
  *
- * @author TP32447
+ * @author Vandens mc Maddens
  */
 @Service("SyncLog_Iface")
 public interface SyncLog_Iface {    
-    public ModelSyncLog insert (ModelSyncLog data);
+    public SyncLogObject insert (SyncLogObject data);
     /*
-    public ModelSyncLog update (Integer key, ModelSyncLog data);
-    public ModelSyncLog detail (Integer key);
+    public SyncLogObject update (Integer key, SyncLogObject data);
+    public SyncLogObject detail (Integer key);
     public List<ModelSyncLog> select (Integer key);
     public List<ModelSyncLog> find (HashMap filter, Integer offset, Integer limit, String OrderField, String Order);
     */

@@ -1,13 +1,13 @@
 
 package com.my.Helper.dao;
 
-import com.my.Models.ModelPayment;
+import com.my.Objects.PaymentObject;
 import org.springframework.stereotype.Repository;
 
 /**
  *
- * @author TP32447
+ * @author Vandens mc Maddens
  */
-public class PaymentDao extends BaseDaoHibernate<ModelPayment>{
+public class PaymentDao extends BaseDaoHibernate<PaymentObject>{
     
 }

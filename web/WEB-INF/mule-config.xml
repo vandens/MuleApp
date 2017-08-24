@@ -14,13 +14,6 @@ http://www.mulesoft.org/schema/mule/jersey http://www.mulesoft.org/schema/mule/j
 http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd">
 
     <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8800" doc:name="HTTP Listener Configuration"/>
-
-    
-   <flow name="my_first_projectFlow">
-        <http:listener config-ref="HTTP_Listener_Configuration" path="/" doc:name="HTTP"/>
-        <set-payload doc:name="Set Payload" value="Hello World!"/>
-        <logger message="Region is : #[payload.region]" level="INFO" doc:name="Logger"/>
-    </flow>
 	
     <!-- RESTful Jersey -->
     <flow name="rest_exampleFlow1" doc:name="rest_exampleFlow1">
@@ -35,8 +28,11 @@ http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/
     <!-- SOAP/CXF -->
     <flow name="PartnerService" doc:name="PartnerService_Flow">
         <http:listener config-ref="HTTP_Listener_Configuration" path="/PartnerServices" doc:name="HTTP"/>
-            <cxf:jaxws-service serviceClass="com.my.API.Partner"/>
-            <component class="com.my.API.Partner"/>
-        <logger message="REstFullll...." level="INFO" doc:name="Logger"/>
+        <cxf:jaxws-service serviceClass="com.my.API.Partner"/>
+        <component class="com.my.API.Partner"/>
+    </flow>
+    <flow name="testonk_flow" doc:name="testonk_flow">
+    <http:listener config-ref="HTTP_Listener_Configuration" path="/testonk"/>
+        <component class="com.my.Controllers.TestController"/>
     </flow>
 </mule>

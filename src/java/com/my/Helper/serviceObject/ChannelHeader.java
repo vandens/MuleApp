@@ -11,8 +11,14 @@ public class ChannelHeader {
     @XmlElement(name="messageID")
     public String messageID;
     public List<AdditionalHeader> additionalHeader = new ArrayList();
+    @XmlElement(name="branchCode")
+    public String branchCode;
     @XmlElement(name="channelID")
     public String channelID;
+    @XmlElement(name="clientSupervisorID")
+    public String clientSupervisorID;
+    @XmlElement(name="clientUserID")
+    public String clientUserID;
     @XmlElement(name="reference")
     public String reference;
     @XmlElement(name="sequenceno")
@@ -21,4 +27,9 @@ public class ChannelHeader {
     public String transactiondate;
     @XmlElement(name="transactiontime")
     public String transactiontime;
+
+    private static class AdditionalHeader {
+        public AdditionalHeader() {}
+    }
+    
 }

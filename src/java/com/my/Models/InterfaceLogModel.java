@@ -25,7 +25,7 @@ public class InterfaceLogModel implements InterfaceLogDAO{
 
     @Override
     public void Insert(InterfaceLogObject interfacelog) {
-      
+        try{
             String UID              = interfacelog.get_uid();
             String CHANNEL_ID       = interfacelog.get_channel_id();
             String LOG_DATE         = dateToString(interfacelog.get_log_date(),"datetime");
@@ -36,12 +36,14 @@ public class InterfaceLogModel implements InterfaceLogDAO{
             String RAW_RESPONSE     = interfacelog.get_raw_response();
             String ERROR_CODE       = interfacelog.get_error_code();
             String ERROR_DESC       = interfacelog.get_error_desc();
-            String SEND_TIME        = interfacelog.get_send_time();
-            String RESPONSE_TIME    = interfacelog.get_response_time();                     
-            String SQL = "INSERT INTO T_INTERFACE_LOG (UID, CHANNEL_ID, LOG_DATE, PAY_NUMBER, FEATURE_ID, FUNCTION_NAME, RAW_REQUEST, RAW_RESPONSE, ERROR_CODE, ERROR_DESC, SEND_TIME, RESPONSE_TIME)"
+            String SEND_TIME        = dateToString(interfacelog.get_send_time(),"datetime");
+            String RESPONSE_TIME    = dateToString(interfacelog.get_response_time(),"datetime");
+            String SQL = "INSERT INTO T_INTERFACE_LOG (uid, channel_id, log_date, pay_number, feature_id, function_name, raw_request, raw_response, error_code, error_desc, send_time, response_time)"
                         + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             jdbc.update( SQL, UID, CHANNEL_ID, LOG_DATE, PAY_NUMBER, FEATURE_ID, FUNCTION_NAME, RAW_REQUEST, RAW_RESPONSE, ERROR_CODE, ERROR_DESC, SEND_TIME, RESPONSE_TIME);
-                
+        }catch(NullPointerException ex){
+            System.out.println(ex.toString());
+        }        
     }
 
     @Override

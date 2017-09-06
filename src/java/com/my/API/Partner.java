@@ -39,17 +39,10 @@ public class Partner {
     @XmlElement(name="InquiryClientResponse")
     @SOAPBinding(parameterStyle=SOAPBinding.ParameterStyle.BARE, use = Use.LITERAL)
     public InquiryClientResponse InquiryClient(@WebParam(name="InquiryClient") InquiryClientRequest RequestData){
-        
-        //if(messageID.get(RequestData.channelHeader.messageID) != null){
-        //    Logger.getLogger(Partner.class.getName()).log(Level.SEVERE, null, "Invalid MessageID : "+RequestData.channelHeader.messageID);
-        //}else{
-            
-            InquiryClientRequestHandler request = new InquiryClientRequestHandler();
-            messageID.put(RequestData.channelHeader.messageID, new MessageID(RequestData.channelHeader.messageID));
-            request.InquiryClientService(RequestData);
-            return request.getRespond();
-            
-        //}
+        InquiryClientRequestHandler request = new InquiryClientRequestHandler();
+        messageID.put(RequestData.channelHeader.messageID, new MessageID(RequestData.channelHeader.messageID));
+        request.InquiryClientService(RequestData);
+        return request.getRespond();
     }
 
     /**

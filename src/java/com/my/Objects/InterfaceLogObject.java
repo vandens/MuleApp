@@ -17,32 +17,32 @@ import javax.persistence.Table;
 @Table(name="T_INTERFACE_LOG")
 public class InterfaceLogObject implements Serializable, Cloneable{
      @Id @GeneratedValue
-     @Column(name="AUTO", length =100)
+     @Column(name="auto", length =100)
      private Integer auto;
-     @Column(name="CHANNEL_ID", length =35)
+     @Column(name="channel_id", length =35)
      private String channel_id;
-     @Column(name="UID", length =50)
+     @Column(name="uid", length =50)
      private String uid;
-     @Column(name="LOG_DATE", length =0)
+     @Column(name="log_date", length =0)
      private Date log_date;
-     @Column(name="PAY_NUMBER", length =17)
+     @Column(name="pay_number", length =17)
      private String pay_number;
-     @Column(name="FEATURE_ID", length =35)
+     @Column(name="feature_id", length =35)
      private String feature_id;
-     @Column(name="FUNCTION_NAME", length =50)
+     @Column(name="function_name", length =50)
      private String function_name;
-     @Column(name="RAW_REQUEST", length =0)
+     @Column(name="raw_request", length =0)
      private String raw_request;
-     @Column(name="RAW_RESPONSE", length =0)
+     @Column(name="raw_response", length =0)
      private String raw_response;
-     @Column(name="ERROR_CODE", length =10)
+     @Column(name="error_code", length =10)
      private String error_code;
-     @Column(name="ERROR_DESC", length =0)
+     @Column(name="error_desc", length =0)
      private String error_desc;
-     @Column(name="SEND_TIME", length =0)
-     private String send_time;
-     @Column(name="RESPONSE_TIME", length =0)
-     private String response_time;
+     @Column(name="send_time", length =0)
+     private Date send_time;
+     @Column(name="response_time", length =0)
+     private Date response_time;
      
      
     public Object clone() throws CloneNotSupportedException {
@@ -60,8 +60,8 @@ public class InterfaceLogObject implements Serializable, Cloneable{
     public void set_raw_response    (String param)  { this.raw_response	= param; }
     public void set_error_code      (String param)  { this.error_code	= param; }
     public void set_error_desc      (String param)  { this.error_desc	= param; }
-    public void set_send_time       (String param)  { this.send_time	= param; }
-    public void set_response_time   (String param)  { this.response_time= param; }
+    public void set_send_time       (Date param)    { this.send_time	= param; }
+    public void set_response_time   (Date param)    { this.response_time= param; }
 
     public Integer get_auto           ()  { return auto         ; }
     public String get_uid             ()  { return uid          ; }
@@ -74,7 +74,7 @@ public class InterfaceLogObject implements Serializable, Cloneable{
     public String get_raw_response    ()  { return raw_response	; }
     public String get_error_code      ()  { return error_code	; }
     public String get_error_desc      ()  { return error_desc	; }
-    public String get_send_time       ()  { return send_time	; }
-    public String get_response_time   ()  { return response_time; }
+    public Date get_send_time         ()  { return send_time	; }
+    public Date get_response_time     ()  { return response_time; }
     
 }

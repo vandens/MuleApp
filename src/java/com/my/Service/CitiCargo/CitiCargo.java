@@ -63,14 +63,13 @@ public class CitiCargo extends SoapClient{
         request.put("ClassObj", "com.my.Service.CitiCargo.CitiCargo_InquiryClientRequestData");
         request.put("TimeOut", Integer.parseInt(_wait_timeout));
         request.put("RequestData", inquiry);
-        try{
-            SoapClient sc   = new SoapClient(request);
-            sc.call();
-            this.setrawRequest(sc._rawRequest);
-            this.setrawResponse(sc._rawResponse);
-        }catch(Exception ex){
-            System.out.println("TIMEOUT : "+ex.toString());
-        }
+       
+        SoapClient sc   = new SoapClient(request);
+        sc.call();
+        System.out.println("kalo disini : "+sc.isTimeOut());
+        this.setisTimeOut(sc.isTimeOut());
+        this.setrawRequest(sc._rawRequest);
+        this.setrawResponse(sc._rawResponse);
     }
     
     /*
@@ -104,12 +103,20 @@ public class CitiCargo extends SoapClient{
     }
     private void setrawResponse(String rawResponse){
         this._rawResponse = rawResponse;
+    }    
+    @Override
+    public void setTimeOut(Integer param){
+        this._timeout   = param;
     }
     public String getrawRequest(){
         return _rawRequest;
     }
     public String getrawResponse(){
         return _rawResponse;
+    }
+    @Override
+    public boolean isTimeOut(){
+        return this._isTimeout;
     }
     
     
@@ -119,6 +126,7 @@ public class CitiCargo extends SoapClient{
             setProperty();
             CitiCargo cc = new CitiCargo();
             cc.InquiryClient("IDX-0109");
+            System.out.println("timeout ? : "+cc.isTimeOut());
             System.out.println(cc._rawRequest);
             System.out.println(cc._rawResponse);
         } catch (SOAPException ex) {

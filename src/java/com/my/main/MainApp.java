@@ -34,10 +34,11 @@ public class MainApp {
         
         
         Date send_time  = new Date();
+        /*
         ApplicationContext context = new ClassPathXmlApplicationContext("configContext.xml");
         UserModel userModel     = (UserModel)context.getBean("UserModel");
         InterfaceLogModel ilm   = (InterfaceLogModel)context.getBean("InterfaceLogModel");
-        
+        */
         CitiCargo citiCargo     = new CitiCargo();
         try {
             citiCargo.InquiryClient("LPX-0001");
@@ -45,12 +46,7 @@ public class MainApp {
             String _serverRawResponse      = citiCargo.getrawResponse();
             
             CitiCargo_InquiryClientResponse x = (CitiCargo_InquiryClientResponse) UnMarshalling(_serverRawResponse, "com.my.Service.CitiCargo.CitiCargo_InquiryClientResponse");
-            
-            System.out.println(x.InquiryClientResult.Respond[0]);
-            System.out.println(x.InquiryClientResult.Respond[1]);
-            System.out.println(x.InquiryClientResult.Respond[2]);
-            System.out.println(x.InquiryClientResult.Respond[3]);
-            
+                        
             InterfaceLogObject ilo         = new InterfaceLogObject();
             ilo.set_uid("5DBEC874-7DDC-4EF9-A49D-47CF448AB5BE");
             ilo.set_log_date(send_time);
@@ -58,18 +54,16 @@ public class MainApp {
             ilo.set_raw_request(_serverRawRequest);
             ilo.set_raw_response(_serverRawResponse);
             ilo.set_function_name("InquiryClient");
-            ilo.set_send_time(dateToString(send_time,"datetime"));
-            ilo.set_response_time(dateToString(new Date(),"datetime"));
+            ilo.set_send_time(send_time);
+            ilo.set_response_time(new Date());
             ilo.set_error_code("00");
             ilo.set_error_desc("");
             ilo.set_pay_number("");
             
             System.out.println(ObjectLoger(citiCargo));
+            
             System.exit(0);
-                System.out.println(ilo.toString());
-                
-            System.exit(0);
-            ilm.Insert(ilo);
+            //ilm.Insert(ilo);
             
             try {
                 InterfaceLogObject oli = (InterfaceLogObject) ilo.clone();

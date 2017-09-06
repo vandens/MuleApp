@@ -26,7 +26,7 @@ public class SoapClient {
     protected String    _class;
     protected Object    _data;
     protected Integer   _timeout;
-    public boolean      _isTimeout = false;
+    public boolean      _isTimeout;
     public String       _rawRequest;
     public String       _rawResponse;
     
@@ -39,6 +39,7 @@ public class SoapClient {
             this._class     = classname;
             this._data      = data;
             this._timeout   = timeout;
+            this._isTimeout = false;
     }
     
     public SoapClient(Map<String, Object> datax) {
@@ -46,9 +47,10 @@ public class SoapClient {
             this._class     = (String) datax.get("ClassObj");
             this._data      = datax.get("RequestData");
             this._timeout   = (Integer) datax.get("TimeOut");
+            this._isTimeout = false;
     }
     
-    public void call() throws SOAPException, JAXBException, ClassNotFoundException, IOException{
+    public void call() throws JAXBException, ClassNotFoundException, IOException{
         
             SOAPConnection soapConnection = null;
             
@@ -67,6 +69,7 @@ public class SoapClient {
                 // connection.setInstanceFollowRedirects (false); // no redirs
                 urlConnection.setConnectTimeout (_timeout * 1000);      
                 urlConnection.setReadTimeout (_timeout * 1000);
+                System.out.println("urlConnection : "+urlConnection);
                 return urlConnection;
             }});
             
@@ -102,19 +105,11 @@ public class SoapClient {
             
             SOAPMessage x = soapResponse;
             }catch(SOAPException ex){
-                System.out.println("EXC : "+ex.toString());
                 this._isTimeout     = true;
-            }finally{
+                this._rawResponse   = ex.toString();
                 
-                try {
-                    if (soapConnection != null) {
-                        soapConnection.close();
-                    }
-                    
-                } catch (SOAPException e) {
-                    System.out.println("Final masuk excep : "+e.toString());
-                }
-
+            }finally{                
+                
             }
     }
     
@@ -124,6 +119,9 @@ public class SoapClient {
     }    
     public void setTimeOut(Integer param){
         this._timeout   = param;
+    }
+    public void setisTimeOut(boolean param){
+        this._isTimeout = param;
     }
     public void setData(Object param){
         this._data      = param;
@@ -142,6 +140,9 @@ public class SoapClient {
     }
     public Integer getTimeOut(){
         return this._timeout;
+    }
+    public boolean isTimeOut(){
+        return this._isTimeout;
     }
     public Object getData(){
         return this._data;

@@ -56,17 +56,17 @@ public class InquiryClientRequestHandler {
             clientMsg.set_feature_id(RequestData.inquiryClientRequestData.partnerID);
             clientMsg.set_function_name("InquiryClientService (Client)");
             clientMsg.set_log_date(new Date());
-            clientMsg.set_send_time(change_date_format(RequestData.channelHeader.transactiondate,"dmy","ymd")+" "+RequestData.channelHeader.transactiontime);
+            clientMsg.set_send_time(new Date());
             clientMsg.set_raw_request(_clientRawRequest);
             
             
                        
-            if(RequestData.inquiryClientRequestData.partnerID.equalsIgnoreCase("CITICARGO")){
+            //if(RequestData.inquiryClientRequestData.partnerID.equalsIgnoreCase("CITICARGO")){
                 
                 //create object for server side message logging
                 serverMsg    = (InterfaceLogObject) clientMsg.clone();
                 serverMsg.set_function_name("InquiryClientService (Server)");
-                serverMsg.set_send_time(dateToString(new Date(),"datetime"));
+                serverMsg.set_send_time(new Date());
                 
                 
                 CitiCargo citiCargo             = new CitiCargo();
@@ -86,10 +86,10 @@ public class InquiryClientRequestHandler {
                 
                 serverMsg.set_raw_request(_serverRawRequest);
                 serverMsg.set_raw_response(_serverRawResponse);
-                serverMsg.set_response_time(dateToString(new Date(),"datetime"));
+                serverMsg.set_response_time(new Date());
                 serverMsg.set_error_code(ClientStatus);
                 serverMsg.set_error_desc(ClientDesc);
-            }
+            //}
             
             grd.responseCode            = "00";
             grd.responseDesc            = "Success";
@@ -99,49 +99,41 @@ public class InquiryClientRequestHandler {
             _inquiryClientResponse.responseCode                = "00";
             _inquiryClientResponse.responseDetail              = grd;
             _inquiryClientResponse.inquiryClientResponseData   = icrd;
-            _clientRawResponse = Marshalling(_inquiryClientResponse,"com.my.Helper.serviceObject.InquiryClientResponse");
-
-             
             
-        } catch (SOAPException ex) {
-            
-            grd.responseCode               = "60";
+        } catch (SOAPException ex) {            
+            grd.responseCode               = "99";
             grd.responseDesc               = ex.toString();
-            _inquiryClientResponse.responseCode     = "60"; 
+            _inquiryClientResponse.responseCode     = "99"; 
             _inquiryClientResponse.responseDetail   = grd;
             _inquiryClientResponse.inquiryClientResponseData = icrd;
-            try {
-                _clientRawResponse = Marshalling(_inquiryClientResponse,"com.my.Helper.serviceObject.InquiryClientResponse");
-            } catch (ClassNotFoundException ex1) {
-                Logger.getLogger(InquiryClientRequestHandler.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-            
-        }catch (JAXBException | ClassNotFoundException | IOException | ParseException | CloneNotSupportedException ex) {
-            grd.responseCode               = "XX";
+                       
+        }catch (JAXBException | ClassNotFoundException | IOException | CloneNotSupportedException ex) {
+            grd.responseCode               = "-1";
             grd.responseDesc               = ex.toString();
-            _inquiryClientResponse.responseCode     = "XX"; 
-            _inquiryClientResponse.responseDetail   = grd; 
-            try {
-                _clientRawResponse = Marshalling(_inquiryClientResponse,"com.my.Helper.serviceObject.InquiryClientResponse");
-            } catch (ClassNotFoundException ex1) {
-                Logger.getLogger(InquiryClientRequestHandler.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-                      
+            _inquiryClientResponse.responseCode     = "-1"; 
+            _inquiryClientResponse.responseDetail   = grd;   
         }finally{
             
-            clientMsg.set_raw_response(_clientRawResponse);
-            clientMsg.set_response_time(dateToString(new Date(),"datetime"));
-            clientMsg.set_error_code(grd.responseCode);
-            clientMsg.set_error_desc(grd.responseDesc);
-            
-            
-            interfaceLog.Insert(clientMsg);
-            if(serverMsg != null)
-            interfaceLog.Insert(serverMsg);
-            
-            log.info(ObjectLoger(clientMsg));
-            log.info(ObjectLoger(serverMsg));
-            
+            try {
+                clientMsg.set_raw_response(_clientRawResponse);
+                clientMsg.set_response_time(new Date());
+                clientMsg.set_error_code(grd.responseCode);
+                clientMsg.set_error_desc(grd.responseDesc);
+                
+                
+                log.info(ObjectLoger(clientMsg));
+                log.info(ObjectLoger(serverMsg));
+                
+                interfaceLog.Insert(clientMsg);
+                if(serverMsg != null)
+                    interfaceLog.Insert(serverMsg);
+                
+                
+                _clientRawResponse = Marshalling(_inquiryClientResponse,"com.my.Helper.serviceObject.InquiryClientResponse");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(InquiryClientRequestHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }
     

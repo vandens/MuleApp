@@ -25,8 +25,37 @@
           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
           http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
           http://www.springframework.org/schema/integration/ws http://www.springframework.org/schema/integration/ws/spring-integration-ws.xsd
+          http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
 	
 ">
 
-
+    <context:property-placeholder location="partners.properties"/>  
+    
+    <bean id="messageFactory" class="org.springframework.ws.soap.saaj.SaajSoapMessageFactory"/>
+    <bean id="citiCargo_wsTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
+        <constructor-arg ref="messageFactory"/>
+        <property name="defaultUri" value="${citicargo.wsdl_path}"/>   
+        <property name="marshaller" ref="ServerMarshaller"/>
+        <property name="unmarshaller" ref="ServerMarshaller"/>   
+        <property name="messageSender">
+            <bean class="org.springframework.ws.transport.http.HttpComponentsMessageSender">
+                <property name="connectionTimeout" value="${citicargo.wait_timeout}" />
+                <property name="readTimeout" value="${citicargo.so_timeout}" />
+            </bean>
+        </property>
+    </bean>
+    <bean id="ServerMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="classesToBeBound">
+            <list>
+                <value>com.my.Service.CitiCargo.CitiCargo_InquiryClientRequestData</value>
+                <value>com.my.Service.CitiCargo.CitiCargo_InquiryClientResponse</value>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- service by class -->
+    <bean id="webServiceClient" class="com.my.main.WebServiceClient">
+        <property name="defaultUri" value="http://localhost:8080/simulator/CargoService"/>
+    </bean>
+    
 </beans>

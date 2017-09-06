@@ -1,6 +1,7 @@
 
 package com.my.Helper;
 
+import static com.my.Helper.General.ObjectLoger;
 import com.my.Service.CitiCargo.CitiCargo_InquiryClientResult;
 import com.my.Service.CitiCargo.CitiCargo_InquiryClientResponse;
 import java.io.ByteArrayInputStream;
@@ -30,9 +31,11 @@ public class MarshallUnMarshall {
     public static String Marshalling(Object Data, String ClassName) throws ClassNotFoundException{
         
         try {
-            SOAPMessage soapMessage = MessageFactory.newInstance().createMessage();
-            org.w3c.dom.Document document       =  DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-            Marshaller marshaller   = JAXBContext.newInstance(Class.forName(ClassName)).createMarshaller();
+            SOAPMessage soapMessage         = MessageFactory.newInstance().createMessage();
+            org.w3c.dom.Document document   =  DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+            JAXBContext jaxb                = JAXBContext.newInstance(Class.forName(ClassName));
+            
+            Marshaller marshaller           = jaxb.createMarshaller();
             marshaller.marshal(Data, document);
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             soapMessage.getSOAPBody().addDocument((org.w3c.dom.Document) document);
@@ -59,6 +62,8 @@ public class MarshallUnMarshall {
         return Obj;
     }
     
+    
+    
     public static void main(String[] args) throws ParserConfigurationException, ClassNotFoundException{
         try {
             
@@ -73,28 +78,22 @@ public class MarshallUnMarshall {
             
             CitiCargo_InquiryClientResponse tu = new CitiCargo_InquiryClientResponse();
             tu.InquiryClientResult = ic;
-            
+            String xx = Marshalling(tu,"com.my.Service.CitiCargo.CitiCargo_InquiryClientResponse");
+            System.out.println(xx);
             System.out.println(d.toString());
-            String x = Marshalling(tu,"com.my.Helper.InquiryClientResponse");
-            System.out.println(x);
-            String XmlString = "<?xml version='1.0' encoding='UTF-8'?>"
-                    + "<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\">"
-                    + "<S:Body>"
-                    + "<ns2:InquiryClientResponse xmlns:ns2=\"http://10.225.16.55:8080/simulator/CargoService\" xmlns:ns3=\"http://10.225.16.55:8080/simulator/KSService/CargoReportObj\">"
-                    + "<InquiryClientResult>"
-                    + "<anyType>LPX-0001</anyType>"
-                    + "<anyType>Harapan Travel</anyType>"
-                    + "<anyType>01</anyType>"
-                    + "<anyType>Exist</anyType>"
-                    + "</InquiryClientResult>"
-                    + "</ns2:InquiryClientResponse>"
-                    + "</S:Body></S:Envelope>";
+            //String XmlString = Marshalling(tu,"com.my.Service.CitiCargo.CitiCargo_InquiryClientResponse");
+            //System.out.println(XmlString);
+            String XmlString = "<?xml version='1.0' encoding='UTF-8'?><S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\"><S:Body><ns2:InquiryClientResponse xmlns:ns2=\"http://localhost:8080/simulator/CargoService\" xmlns:ns3=\"http://localhost:8080/simulator/KSService/CargoReportObj\"><InquiryClientResult><anyType>LPX-0001</anyType><anyType>Harapan Travel</anyType><anyType>01</anyType><anyType>Exist</anyType></InquiryClientResult></ns2:InquiryClientResponse></S:Body></S:Envelope>";
+            
+            CitiCargo_InquiryClientResponse namespace = new CitiCargo_InquiryClientResponse();
             
             SOAPMessage message         = MessageFactory.newInstance().createMessage(null,
                     new ByteArrayInputStream(XmlString.getBytes()));
-            Unmarshaller unmarshaller   = JAXBContext.newInstance(CitiCargo_InquiryClientResponse.class).createUnmarshaller();
+            Unmarshaller unmarshaller   = JAXBContext.newInstance(namespace.getClass()).createUnmarshaller();
             CitiCargo_InquiryClientResponse Obj = (CitiCargo_InquiryClientResponse)unmarshaller.unmarshal(message.getSOAPBody().extractContentAsDocument());
-            System.out.println(Obj.InquiryClientResult.Respond[0]);
+            
+            System.out.println(ObjectLoger(Obj));
+            
             
         } catch (IOException ex) {
             Logger.getLogger(MarshallUnMarshall.class.getName()).log(Level.SEVERE, null, ex);

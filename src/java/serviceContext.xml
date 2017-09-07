@@ -32,26 +32,28 @@
     <context:property-placeholder location="partners.properties"/>  
     
     <bean id="messageFactory" class="org.springframework.ws.soap.saaj.SaajSoapMessageFactory"/>
-    <bean id="citiCargo_wsTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
+    <bean id="wsClientTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
         <constructor-arg ref="messageFactory"/>
         <property name="defaultUri" value="${citicargo.wsdl_path}"/>   
         <property name="marshaller" ref="ServerMarshaller"/>
         <property name="unmarshaller" ref="ServerMarshaller"/>   
-        <property name="messageSender">
-            <bean class="org.springframework.ws.transport.http.HttpComponentsMessageSender">
-                <property name="connectionTimeout" value="${citicargo.wait_timeout}" />
-                <property name="readTimeout" value="${citicargo.so_timeout}" />
-            </bean>
-        </property>
+        <property name="messageSender" ref="msgSender"/>
+    </bean>
+    <bean id="msgSender" class="org.springframework.ws.transport.http.HttpComponentsMessageSender">
+        <property name="connectionTimeout" value="${citicargo.wait_timeout}" />
+        <property name="readTimeout" value="${citicargo.so_timeout}" />
     </bean>
     <bean id="ServerMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
         <property name="classesToBeBound">
             <list>
+                <value>com.my.Helper.serviceObject.InquiryAgentRequest</value>
+                <value>com.my.Helper.serviceObject.InquiryAgentResponse</value>
                 <value>com.my.Service.CitiCargo.CitiCargo_InquiryClientRequestData</value>
                 <value>com.my.Service.CitiCargo.CitiCargo_InquiryClientResponse</value>
             </list>
         </property>
     </bean>
+    
     
     <!-- service by class -->
     <bean id="webServiceClient" class="com.my.main.WebServiceClient">

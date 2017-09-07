@@ -2,12 +2,7 @@
 package com.my.main;
 
 import static com.my.API.Partner.interfaceLog;
-import com.my.Helper.serviceObject.InquiryClientRequest;
-import com.my.Helper.serviceObject.InquiryClientRequestData;
-import com.my.Helper.serviceObject.InquiryClientResponse;
-import com.my.Helper.serviceObject.InquiryClientResponseData;
-import com.my.Helper.serviceObject.ChannelHeader;
-import com.my.Helper.serviceObject.GlobalResponseDetail;
+import com.my.Helper.serviceObject.*;
 import static com.my.Helper.General.*;
 import static com.my.Helper.MarshallUnMarshall.Marshalling;
 import static com.my.Helper.MarshallUnMarshall.UnMarshalling;
@@ -15,7 +10,6 @@ import com.my.Objects.InterfaceLogObject;
 import com.my.Service.CitiCargo.CitiCargo;
 import com.my.Service.CitiCargo.CitiCargo_InquiryClientResponse;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,13 +29,13 @@ public class InquiryClientRequestHandler {
     public static String _serverRawRequest = null;
     public static String _serverRawResponse = null;
     
-    public InquiryClientResponse _inquiryClientResponse = new InquiryClientResponse();
+    public InquiryAgentResponse _inquiryClientResponse = new InquiryAgentResponse();
     
     private static final Logger log = Logger.getLogger(InquiryClientRequestHandler.class.getName());  
     
-    public void InquiryClientService(InquiryClientRequest RequestData){
+    public void InquiryClientService(InquiryAgentRequest RequestData){
         
-        InquiryClientResponseData icrd  = new InquiryClientResponseData();
+        InquiryAgentResponseData icrd  = new InquiryAgentResponseData();
         GlobalResponseDetail grd        = new GlobalResponseDetail();
         InterfaceLogObject   clientMsg  = new InterfaceLogObject();
         InterfaceLogObject   serverMsg  = null;
@@ -98,14 +92,14 @@ public class InquiryClientRequestHandler {
             icrd.clientDesc             = ClientDesc;
             _inquiryClientResponse.responseCode                = "00";
             _inquiryClientResponse.responseDetail              = grd;
-            _inquiryClientResponse.inquiryClientResponseData   = icrd;
+            _inquiryClientResponse.inquiryAgentResponseData   = icrd;
             
         } catch (SOAPException ex) {            
             grd.responseCode               = "99";
             grd.responseDesc               = ex.toString();
             _inquiryClientResponse.responseCode     = "99"; 
             _inquiryClientResponse.responseDetail   = grd;
-            _inquiryClientResponse.inquiryClientResponseData = icrd;
+            _inquiryClientResponse.inquiryAgentResponseData = icrd;
                        
         }catch (JAXBException | ClassNotFoundException | IOException | CloneNotSupportedException ex) {
             grd.responseCode               = "-1";
@@ -138,7 +132,7 @@ public class InquiryClientRequestHandler {
     }
     
     
-    public InquiryClientResponse getRespond(){
+    public InquiryAgentResponse getRespond(){
         return _inquiryClientResponse;
     }
     
@@ -152,11 +146,11 @@ public class InquiryClientRequestHandler {
             ch.transactiondate  = dateToString(new Date(),"dmy");
             ch.transactiontime  = dateToString(new Date(),"HH:mm:ss");
             
-            InquiryClientRequestData ic = new InquiryClientRequestData();            
+            InquiryAgentRequestData ic = new InquiryAgentRequestData();            
             ic.partnerID        = "CITICARGO";
             ic.clientID         = "LPX-0001";
             
-            InquiryClientRequest icr = new InquiryClientRequest();
+            InquiryAgentRequest icr = new InquiryAgentRequest();
             icr.channelHeader   = ch;
             icr.inquiryClientRequestData = ic;
             

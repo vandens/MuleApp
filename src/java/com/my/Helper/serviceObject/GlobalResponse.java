@@ -11,7 +11,7 @@ public class GlobalResponse {
     @XmlElement(name="responseDetail")
     public GlobalResponseDetail responseDetail;
     @XmlElement(name="inquiryClientResponseData")
-    public InquiryClientResponseData InquiryClientResponseData;
+    public InquiryAgentResponseData InquiryClientResponseData;
     
     public GlobalResponse(){}
     public void setGlobalResponseDetail(){

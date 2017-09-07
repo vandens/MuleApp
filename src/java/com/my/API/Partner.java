@@ -6,6 +6,7 @@ import static com.my.Helper.General.dateToString;
 import com.my.Helper.serviceObject.*;
 import com.my.Models.InterfaceLogModel;
 import com.my.main.InquiryClientRequestHandler;
+import com.my.main.InquiryClientRequestHandlers;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Logger;
@@ -33,13 +34,13 @@ public class Partner {
     /**
      * Web service operation
      * @param RequestData
-     * @return InquiryClientResponseData
+     * @return InquiryAgentResponseData
      */
-    @WebMethod(operationName="InquiryClient", action="http://www.my.co.id/PartnerServices/InquiryClient")
+    @WebMethod(operationName="InquiryAgent", action="http://www.my.co.id/PartnerServices/InquiryClient")
     @XmlElement(name="InquiryClientResponse")
     @SOAPBinding(parameterStyle=SOAPBinding.ParameterStyle.BARE, use = Use.LITERAL)
-    public InquiryClientResponse InquiryClient(@WebParam(name="InquiryClient") InquiryClientRequest RequestData){
-        InquiryClientRequestHandler request = new InquiryClientRequestHandler();
+    public InquiryAgentResponse InquiryAgent(@WebParam(name="InquiryAgent") InquiryAgentRequest RequestData){
+        InquiryClientRequestHandlers request = new InquiryClientRequestHandlers();
         messageID.put(RequestData.channelHeader.messageID, new MessageID(RequestData.channelHeader.messageID));
         request.InquiryClientService(RequestData);
         return request.getRespond();
@@ -85,6 +86,7 @@ public class Partner {
     
     
     public static void main(String[] args){
+        Partner p = new Partner();
             ChannelHeader ch    = new ChannelHeader();
             ch.channelID = "asdf";
             ch.messageID = "fdadf";
@@ -92,20 +94,20 @@ public class Partner {
             ch.transactiondate  = dateToString(new Date(),"ymd");
             ch.transactiontime  = dateToString(new Date(),"HHmmss");
             
-            InquiryClientRequestData ic = new InquiryClientRequestData();            
+            InquiryAgentRequestData ic = new InquiryAgentRequestData();            
             ic.partnerID        = "CITICARGO";
-            ic.clientID         = "IDX-0109";
+            ic.clientID         = "LPX-0001";
             
-            InquiryClientRequest icr = new InquiryClientRequest();
+            InquiryAgentRequest icr = new InquiryAgentRequest();
             icr.channelHeader   = ch;
             icr.inquiryClientRequestData = ic;
             
-            InquiryClientRequestHandler m = new InquiryClientRequestHandler();
+            InquiryClientRequestHandlers m = new InquiryClientRequestHandlers();
             
             
             m.InquiryClientService(icr);
-            InquiryClientResponse x = m.getRespond();
-            System.out.println(x.inquiryClientResponseData.toString());
+            InquiryAgentResponse x = m.getRespond();
+            System.out.println(x.inquiryAgentResponseData.toString());
     }
 }
 

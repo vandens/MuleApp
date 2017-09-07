@@ -5,10 +5,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class InquiryClientResponse {
+public class InquiryAgentResponse {
     public String responseCode;
     @XmlElement(name="responseDetail")
     public GlobalResponseDetail responseDetail;
-    @XmlElement(name="inquiryClientResponseData")
-    public InquiryClientResponseData inquiryClientResponseData;
+    @XmlElement(name="inquiryAgentResponseData")
+    public InquiryAgentResponseData inquiryAgentResponseData = null;
 }

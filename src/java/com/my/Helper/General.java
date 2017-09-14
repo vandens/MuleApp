@@ -129,7 +129,6 @@ public class General {
         ReflectionToStringBuilder builder;
         builder = new ReflectionToStringBuilder(
                 obj, ToStringStyle.MULTI_LINE_STYLE) {
-                    
                     @Override
                     public ToStringBuilder append(String fieldName, Object obj) {
                         try {
@@ -141,8 +140,29 @@ public class General {
                     }
                 };
 
-        return builder.toString();
-
+        return "\n"+builder.toString();
     }
     
+    public static String FixstringLoger(String str){
+        int pad     = 50;
+        int left    = pad-str.length();
+        int div     = (int) Math.ceil(left / 2);
+        int x       = div-str.length();
+        String pading = StringUtils.leftPad("", pad, "x");
+        try {
+            str = FixString(str,div,"RPS");
+            str = FixString("",x,"LPS")+str;
+            str = pading+str+pading;
+        } catch (Exception ex) {
+            Logger.getLogger(General.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "\n"+str;
+    }
+    
+    public static void main(String[] args){
+        String x = FixstringLoger("Nothing");
+        String y = FixstringLoger("wkwkw");
+        System.out.println(x);
+        System.out.println(y);
+    }
 }

@@ -56,9 +56,6 @@
     -->
     
     <!-- Definition for m_user bean -->
-    <bean id="UserModel" class="com.my.Models.UserModel">
-        <property name="dataSource" ref="dataSource" />
-    </bean>
     <bean id="InterfaceLogModel" class="com.my.Models.InterfaceLogModel">
         <property name="dataSource" ref="dataSource" />
     </bean>

@@ -2,6 +2,7 @@
 package com.my.API;
 
 import com.my.DAO.MasterServices;
+import static com.my.Helper.General.FixString;
 import com.my.Helper.General.MessageID;
 import static com.my.Helper.General.dateToString;
 import com.my.Helper.GlobalProperty;
@@ -11,6 +12,7 @@ import com.my.Service.Partners;
 import com.my.main.InquiryClientRequestHandler;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -33,10 +35,15 @@ public class PartnerAPI {
     public static MasterServices masterServices;
     
     public PartnerAPI(){
-        ApplicationContext context  = new ClassPathXmlApplicationContext("configContext.xml");
-        masterServices              = (MasterServices) context.getBean(MasterServices.class);
-        interfaceLog                = (InterfaceLogModel)context.getBean("InterfaceLogModel");
-        //wsClient                  = (WebServiceTemplate)context.getBean("WSTemplate");
+        try {            
+            log.info("========================= Begin of Prepare PartnerAPI =========================");
+            ApplicationContext context  = new ClassPathXmlApplicationContext("configContext.xml");
+            masterServices              = (MasterServices) context.getBean(MasterServices.class);
+            interfaceLog                = (InterfaceLogModel)context.getBean("InterfaceLogModel");
+            //wsClient                  = (WebServiceTemplate)context.getBean("WSTemplate");
+        } catch (Exception ex) {
+            Logger.getLogger(PartnerAPI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**

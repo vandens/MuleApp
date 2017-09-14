@@ -41,6 +41,7 @@ public class InterfaceLogModel implements InterfaceLogServices{
             String SQL = "INSERT INTO T_INTERFACE_LOG (uid, channel_id, log_date, pay_number, feature_id, function_name, raw_request, raw_response, error_code, error_desc, send_time, response_time)"
                         + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             jdbc.update( SQL, UID, CHANNEL_ID, LOG_DATE, PAY_NUMBER, FEATURE_ID, FUNCTION_NAME, RAW_REQUEST, RAW_RESPONSE, ERROR_CODE, ERROR_DESC, SEND_TIME, RESPONSE_TIME);
+            
         }catch(NullPointerException ex){
             
         }        

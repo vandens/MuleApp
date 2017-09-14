@@ -14,21 +14,10 @@ http://www.mulesoft.org/schema/mule/jersey http://www.mulesoft.org/schema/mule/j
 http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd">
 
     <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8800" doc:name="HTTP Listener Configuration"/>
-	
-    <!-- RESTful Jersey -->
-    <flow name="rest_exampleFlow1" doc:name="rest_exampleFlow1">
-        <http:listener config-ref="HTTP_Listener_Configuration" path="/restful/rest1" doc:name="HTTP"/>
-        <jersey:resources doc:name="REST">
-            <component class="com.my.Restful.Rest1"/>
-        </jersey:resources>
-        <logger message="REstFullll...." level="INFO" doc:name="Logger"/>
-    </flow>
-    
-    
     <!-- SOAP/CXF -->
     <flow name="PartnerService" doc:name="PartnerService_Flow">
         <http:listener config-ref="HTTP_Listener_Configuration" path="/PartnerServices" doc:name="HTTP"/>
-        <cxf:jaxws-service serviceClass="com.my.API.Partner"/>
-        <component class="com.my.API.Partner"/>
+        <cxf:jaxws-service serviceClass="com.my.API.PartnerAPI"/>
+        <component class="com.my.API.PartnerAPI"/>
     </flow>
 </mule>

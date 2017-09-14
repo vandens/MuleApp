@@ -10,7 +10,7 @@ import javax.sql.DataSource;
  *
  * @author Vandens mc Maddens
  */
-public interface UserDAO {
+public interface UserServices {
     public void setDataSource(DataSource ds);
     public void Insert(String user_id, String user_fullname, String user_password, String user_status, String user_islogin);
     public UserObject Detail(String user_id);

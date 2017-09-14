@@ -1,12 +1,14 @@
 
 package com.my.API;
 
+import com.my.DAO.MasterServices;
 import com.my.Helper.General.MessageID;
 import static com.my.Helper.General.dateToString;
+import com.my.Helper.GlobalProperty;
 import com.my.Helper.serviceObject.*;
 import com.my.Models.InterfaceLogModel;
+import com.my.Service.Partners;
 import com.my.main.InquiryClientRequestHandler;
-import com.my.main.InquiryClientRequestHandlers;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Logger;
@@ -18,17 +20,23 @@ import javax.jws.soap.SOAPBinding.Use;
 import javax.xml.bind.annotation.XmlElement;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.ws.client.core.WebServiceTemplate;
 
 @WebService(name="PartnerServices", targetNamespace="http://www.my.co.id/PartnerServices")
-public class Partner {
+public class PartnerAPI {
     
-    private static final Logger log = Logger.getLogger(Partner.class.getName()); 
+    public static GlobalProperty partnerProperty = GlobalProperty.getGlobalProp("./config/partners.properties");
+    private static final Logger log = Logger.getLogger(PartnerAPI.class.getName()); 
     public static HashMap<String, MessageID> messageID = new HashMap<>();
     public static InterfaceLogModel interfaceLog;
+    public static WebServiceTemplate wsClient;
+    public static MasterServices masterServices;
     
-    public Partner(){
+    public PartnerAPI(){
         ApplicationContext context  = new ClassPathXmlApplicationContext("configContext.xml");
+        masterServices              = (MasterServices) context.getBean(MasterServices.class);
         interfaceLog                = (InterfaceLogModel)context.getBean("InterfaceLogModel");
+        //wsClient                  = (WebServiceTemplate)context.getBean("WSTemplate");
     }
     
     /**
@@ -40,10 +48,10 @@ public class Partner {
     @XmlElement(name="InquiryClientResponse")
     @SOAPBinding(parameterStyle=SOAPBinding.ParameterStyle.BARE, use = Use.LITERAL)
     public InquiryAgentResponse InquiryAgent(@WebParam(name="InquiryAgent") InquiryAgentRequest RequestData){
-        InquiryClientRequestHandlers request = new InquiryClientRequestHandlers();
+        InquiryClientRequestHandler request = new InquiryClientRequestHandler();
         messageID.put(RequestData.channelHeader.messageID, new MessageID(RequestData.channelHeader.messageID));
         request.InquiryClientService(RequestData);
-        return request.getRespond();
+        return request.getInquiryAgentResponse();
     }
 
     /**
@@ -84,9 +92,10 @@ public class Partner {
         return null;
     }
     
-    
+   
     public static void main(String[] args){
-        Partner p = new Partner();
+            PartnerAPI p = new PartnerAPI();
+            
             ChannelHeader ch    = new ChannelHeader();
             ch.channelID = "asdf";
             ch.messageID = "fdadf";
@@ -95,19 +104,19 @@ public class Partner {
             ch.transactiontime  = dateToString(new Date(),"HHmmss");
             
             InquiryAgentRequestData ic = new InquiryAgentRequestData();            
-            ic.partnerID        = "CITICARGO";
+            ic.partnerID        = "lionexpress";
             ic.clientID         = "LPX-0001";
             
             InquiryAgentRequest icr = new InquiryAgentRequest();
             icr.channelHeader   = ch;
             icr.inquiryClientRequestData = ic;
             
-            InquiryClientRequestHandlers m = new InquiryClientRequestHandlers();
+            InquiryClientRequestHandler m = new InquiryClientRequestHandler();
             
             
             m.InquiryClientService(icr);
-            InquiryAgentResponse x = m.getRespond();
-            System.out.println(x.inquiryAgentResponseData.toString());
+            InquiryAgentResponse x = m.getInquiryAgentResponse();
     }
+    
 }
 

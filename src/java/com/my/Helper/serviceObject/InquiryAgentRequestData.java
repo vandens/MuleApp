@@ -5,7 +5,7 @@ import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="InquiryAgentRequest")
+@XmlRootElement
 @SOAPBinding(parameterStyle=SOAPBinding.ParameterStyle.BARE)
 public class InquiryAgentRequestData {
     @XmlElement(name="partnerID", required=true)

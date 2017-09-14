@@ -1,7 +1,7 @@
 
 package com.my.Models;
 
-import com.my.DAO.InterfaceLogDAO;
+import com.my.DAO.InterfaceLogServices;
 import static com.my.Helper.General.dateToString;
 import com.my.Objects.InterfaceLogObject;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  *
  * @author Vandens mc Maddens
  */
-public class InterfaceLogModel implements InterfaceLogDAO{
+public class InterfaceLogModel implements InterfaceLogServices{
     private DataSource dataSource;
     private JdbcTemplate jdbc;
 
@@ -42,7 +42,7 @@ public class InterfaceLogModel implements InterfaceLogDAO{
                         + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             jdbc.update( SQL, UID, CHANNEL_ID, LOG_DATE, PAY_NUMBER, FEATURE_ID, FUNCTION_NAME, RAW_REQUEST, RAW_RESPONSE, ERROR_CODE, ERROR_DESC, SEND_TIME, RESPONSE_TIME);
         }catch(NullPointerException ex){
-            System.out.println(ex.toString());
+            
         }        
     }
 

@@ -1,37 +1,21 @@
 
 package com.my.main;
 
-import com.my.API.Partner;
-import static com.my.API.Partner.interfaceLog;
-import com.my.Helper.serviceObject.InquiryAgentRequest;
-import com.my.Helper.serviceObject.InquiryAgentRequestData;
-import com.my.Helper.serviceObject.InquiryAgentResponse;
-import com.my.Helper.serviceObject.InquiryAgentResponseData;
-import com.my.Helper.serviceObject.ChannelHeader;
-import com.my.Helper.serviceObject.GlobalResponseDetail;
+import com.my.API.PartnerAPI;
+import static com.my.API.PartnerAPI.*;
 import static com.my.Helper.General.*;
-import static com.my.Helper.MarshallUnMarshall.Marshalling;
-import static com.my.Helper.MarshallUnMarshall.UnMarshalling;
-import com.my.Objects.InterfaceLogObject;
-import com.my.Service.CitiCargo.CitiCargo;
-import com.my.Service.CitiCargo.CitiCargo_InquiryClientRequestData;
-import com.my.Service.CitiCargo.CitiCargo_InquiryClientResponse;
+import com.my.Helper.serviceObject.*;
+import com.my.Objects.*;
+import com.my.Service.CitiCargo.*;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.Date;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.bind.JAXBException;
-import javax.xml.soap.SOAPException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.oxm.XmlMappingException;
 import org.springframework.ws.client.WebServiceIOException;
-import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.xml.transform.StringResult;
 
 
-public class InquiryClientRequestHandlers {
+public class InquiryClientRequestHandler1 {
     private String GlobalRespCode = "";
     private String DetailRespCode = "";
     private String DetailRespDesc = "";
@@ -47,25 +31,21 @@ public class InquiryClientRequestHandlers {
     
     private InquiryAgentResponse _inquiryAgentResponse = new InquiryAgentResponse();
     
-    private static final Logger log = Logger.getLogger(InquiryClientRequestHandler.class.getName());  
+    private static final Logger log = Logger.getLogger(InquiryClientRequestHandler2.class.getName());  
     
     public void InquiryClientService(InquiryAgentRequest RequestData){
-        
-        ApplicationContext context  = new ClassPathXmlApplicationContext("serviceContext.xml");
-        WebServiceTemplate ws       = (WebServiceTemplate)context.getBean("wsClientTemplate");
-        
+                
         InquiryAgentResponseData icrd  = new InquiryAgentResponseData();
         GlobalResponseDetail grd        = new GlobalResponseDetail();
         InterfaceLogObject   clientMsg  = new InterfaceLogObject();
         InterfaceLogObject   serverMsg  = null;
         
         try {
-            ws.getMarshaller().marshal(RequestData, _clientRawRequest);
-            
+            wsClient.getMarshaller().marshal(RequestData, _clientRawRequest);
         } catch (IOException | XmlMappingException ex) {
             DetailRespCode               = "-1";
             DetailRespDesc               = ex.getMessage();
-        } 
+        }
         
         try { 
                    
@@ -101,10 +81,10 @@ public class InquiryClientRequestHandlers {
                 inquiry.customer_id                           = RequestData.inquiryClientRequestData.clientID;
         
                 //send message
-                CitiCargo_InquiryClientResponse inquiryResult = (CitiCargo_InquiryClientResponse) ws.marshalSendAndReceive(inquiry);
+                CitiCargo_InquiryClientResponse inquiryResult = (CitiCargo_InquiryClientResponse) wsClient.marshalSendAndReceive(inquiry);
                                
-                ws.getMarshaller().marshal(inquiry, _serverRawRequest);
-                ws.getMarshaller().marshal(inquiryResult, _serverRawResponse);   
+                wsClient.getMarshaller().marshal(inquiry, _serverRawRequest);
+                wsClient.getMarshaller().marshal(inquiryResult, _serverRawResponse);   
                 
                 //set response
                 ClientID             = RequestData.inquiryClientRequestData.clientID;
@@ -122,13 +102,13 @@ public class InquiryClientRequestHandlers {
             
                 DetailRespCode            = "00";
                 DetailRespDesc            = "Success";
-                icrd.clientID               = ClientID;
-                icrd.clientName             = ClientName;
-                icrd.clientDesc             = ClientDesc;
+                icrd.clientID             = ClientID;
+                icrd.clientName           = ClientName;
+                icrd.clientDesc           = ClientDesc;
             
             }
             
-        } catch (WebServiceIOException | IOException  ex) { 
+        } catch (WebServiceIOException | IOException  ex) {
             
             if(ex.getMessage().toLowerCase().indexOf("refused") != -1 || ex.getMessage().indexOf("404") != -1){                
                 DetailRespCode               = "-1";
@@ -149,7 +129,7 @@ public class InquiryClientRequestHandlers {
                 _inquiryAgentResponse.responseDetail              = grd;
                 _inquiryAgentResponse.inquiryAgentResponseData   = icrd;
                 
-                ws.getMarshaller().marshal(_inquiryAgentResponse, _clientRawResponse);
+                wsClient.getMarshaller().marshal(_inquiryAgentResponse, _clientRawResponse);
                 
                 clientMsg.set_raw_response(_clientRawResponse.toString());
                 clientMsg.set_response_time(new Date());
@@ -178,7 +158,7 @@ public class InquiryClientRequestHandlers {
     }
     
     public static void main(String[] args){
-            Partner par = new Partner();
+            PartnerAPI par = new PartnerAPI();
             
             ChannelHeader ch    = new ChannelHeader();
             ch.channelID = "asdf";
@@ -195,7 +175,7 @@ public class InquiryClientRequestHandlers {
             icr.channelHeader   = ch;
             icr.inquiryClientRequestData = ic;
             
-            InquiryClientRequestHandlers m = new InquiryClientRequestHandlers();
+            InquiryClientRequestHandler1 m = new InquiryClientRequestHandler1();
             
             
             m.InquiryClientService(icr);

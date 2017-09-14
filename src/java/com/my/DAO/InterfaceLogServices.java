@@ -10,7 +10,7 @@ import javax.sql.DataSource;
  *
  * @author Vandens mc Maddens
  */
-public interface InterfaceLogDAO {
+public interface InterfaceLogServices {
     public void setDataSource(DataSource ds);
     public void Insert(InterfaceLogObject interfacelog);
     public InterfaceLogObject Detail(String user_id);

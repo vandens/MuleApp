@@ -28,22 +28,20 @@
           http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
 	
 ">
-
-    <context:property-placeholder location="partners.properties"/>  
     
-    <bean id="messageFactory" class="org.springframework.ws.soap.saaj.SaajSoapMessageFactory"/>
-    <bean id="wsClientTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
-        <constructor-arg ref="messageFactory"/>
+    <bean id="SoapMessageFactory" class="org.springframework.ws.soap.saaj.SaajSoapMessageFactory"/>
+    <bean id="WSTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
+        <constructor-arg ref="SoapMessageFactory"/>
         <property name="defaultUri" value="${citicargo.wsdl_path}"/>   
-        <property name="marshaller" ref="ServerMarshaller"/>
-        <property name="unmarshaller" ref="ServerMarshaller"/>   
-        <property name="messageSender" ref="msgSender"/>
+        <property name="marshaller" ref="ObjectMarshaller"/>
+        <property name="unmarshaller" ref="ObjectMarshaller"/>   
+        <property name="messageSender" ref="HttpMessageSender"/>
     </bean>
-    <bean id="msgSender" class="org.springframework.ws.transport.http.HttpComponentsMessageSender">
+    <bean id="HttpMessageSender" class="org.springframework.ws.transport.http.HttpComponentsMessageSender">
         <property name="connectionTimeout" value="${citicargo.wait_timeout}" />
         <property name="readTimeout" value="${citicargo.so_timeout}" />
     </bean>
-    <bean id="ServerMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+    <bean id="ObjectMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
         <property name="classesToBeBound">
             <list>
                 <value>com.my.Helper.serviceObject.InquiryAgentRequest</value>

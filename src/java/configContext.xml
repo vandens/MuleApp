@@ -25,11 +25,21 @@
           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
 ">
 
-    <context:property-placeholder location="config.properties"/>  
-    <context:component-scan base-package="com.my.Helper.interfaces.SyncLog_Iface"/>    
-    <context:component-scan base-package="com.may.Helper.dao"/> 
+    
+    
+    <context:component-scan base-package="com.my.DAO"/>
     <context:annotation-config/>
     <tx:annotation-driven/>
+    
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>file:#{systemProperties['user.dir']}/config/config.properties</value>
+                <value>file:#{systemProperties['user.dir']}/config/partners.properties</value>
+            </list>
+        </property>
+    </bean>
+    
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
           p:driverClassName="${db_driver}"
           p:url="${db_url}"
@@ -52,4 +62,6 @@
     <bean id="InterfaceLogModel" class="com.my.Models.InterfaceLogModel">
         <property name="dataSource" ref="dataSource" />
     </bean>
+    
+    
 </beans>

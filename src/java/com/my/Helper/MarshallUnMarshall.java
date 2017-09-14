@@ -9,21 +9,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.text.Document;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
-import javax.xml.transform.Result;
 
 
 public class MarshallUnMarshall {
@@ -33,7 +27,7 @@ public class MarshallUnMarshall {
         try {
             SOAPMessage soapMessage         = MessageFactory.newInstance().createMessage();
             org.w3c.dom.Document document   =  DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-            JAXBContext jaxb                = JAXBContext.newInstance(Class.forName(ClassName));
+            JAXBContext jaxb                = JAXBContext.newInstance(ClassName); //Class.forName(ClassName));
             
             Marshaller marshaller           = jaxb.createMarshaller();
             marshaller.marshal(Data, document);

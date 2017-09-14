@@ -3,7 +3,7 @@ package com.my.Models;
 
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
-import com.my.DAO.UserDAO;
+import com.my.DAO.UserServices;
 import com.my.Objects.UserObject;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Vandens mc Maddens
  */
-public class UserModel implements UserDAO{
+public class UserModel implements UserServices{
     private DataSource dataSource;
     private JdbcTemplate jdbc;
 

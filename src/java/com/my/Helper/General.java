@@ -148,7 +148,7 @@ public class General {
         int left    = pad-str.length();
         int div     = (int) Math.ceil(left / 2);
         int x       = div-str.length();
-        String pading = StringUtils.leftPad("", pad, "x");
+        String pading = " "+StringUtils.leftPad("", pad, "*")+" ";
         try {
             str = FixString(str,div,"RPS");
             str = FixString("",x,"LPS")+str;

@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Table(name="T_INTERFACE_LOG")
 public class InterfaceLogObject implements Serializable, Cloneable{
      @Id @GeneratedValue
-     @Column(name="AUTO", length =100)
+     @Column(name="auto", length =100)
      private Integer auto;
      @Column(name="channel_id", length =35)
      private String channel_id;

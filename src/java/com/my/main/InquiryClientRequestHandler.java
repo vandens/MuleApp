@@ -11,6 +11,7 @@ import static com.my.Helper.General.dateToString;
 import com.my.Helper.serviceObject.*;
 import com.my.Objects.InterfaceLogObject;
 import com.my.Service.LionExpress.*;
+import com.my.Service.CitiCargo.*;
 import com.my.Service.Partners;
 import com.my.Service.WSClient;
 import java.io.IOException;
@@ -34,9 +35,6 @@ public class InquiryClientRequestHandler {
     
     private WSClient wsClient = new WSClient();
     
-    private String GlobalRespCode = "";
-    private String DetailRespCode = "";
-    private String DetailRespDesc = "";
     private String ChannelRequestMsg; //  = new StringResult();
     private String ChannelResponseMsg; // = new StringResult();
     private String PartnerRequestMsg;//  = new StringResult();
@@ -52,7 +50,7 @@ public class InquiryClientRequestHandler {
     
     public void InquiryClientService(InquiryAgentRequest RequestData) {
         try{
-            log.info(FixstringLoger("Client Request Data"));
+            log.info(FixstringLoger("Channel Request Data"));
             log.info(ObjectLoger(RequestData));
             
             log.info(FixstringLoger("Partner Initializing"));
@@ -80,9 +78,14 @@ public class InquiryClientRequestHandler {
                
                 serverMsg.set_send_time(new Date());
                 serverMsg.set_function_name("InquiryClientService (Server)");
-                if(partners.getPartnerID().equalsIgnoreCase("lionexpress")){                   
+                if(partners.getPartnerID().equalsIgnoreCase("lionexpress") || partners.getPartnerID().equalsIgnoreCase("citicargo") || partners.getPartnerID().equalsIgnoreCase("lioncargo")){                   
                    
-                   LionExpress_InquiryClientHandler();
+                    if(partners.getPartnerID().equalsIgnoreCase("lionexpress"))
+                        LionExpress_InquiryClientHandler();
+                    else if(partners.getPartnerID().equalsIgnoreCase("lioncargo"))
+                        LionCargo_InquiryClientHandler();
+                    else if(partners.getPartnerID().equalsIgnoreCase("citicargo"))
+                        CitiCargo_InquiryClientHandler();
                                       
                     clientMsg.set_response_time(new Date());
                     clientMsg.set_error_code(responDetail.responseCode);
@@ -94,7 +97,9 @@ public class InquiryClientRequestHandler {
                     serverMsg.set_response_time(new Date());
                     serverMsg.set_error_code(responData.clientError);
                     serverMsg.set_error_desc(responData.clientDesc);
-                   
+                  
+                }else if(partners.getPartnerID().equalsIgnoreCase("transnusa")){
+                    
                 }else{
                     responDetail.responseCode = "01";
                     responDetail.responseDesc = "Invalid Data";              
@@ -102,15 +107,9 @@ public class InquiryClientRequestHandler {
                 
             }  
             
-        }catch(IOException ex){
+        }catch(CloneNotSupportedException ex){
                responDetail.responseCode = "01";
                responDetail.responseDesc = "Invalid Data";            
-        } catch (CloneNotSupportedException ex) {
-               responDetail.responseCode = "01";
-               responDetail.responseDesc = "Invalid Data";
-            
-        } catch (Exception ex) {
-            Logger.getLogger(InquiryClientRequestHandler.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             
             try {
@@ -124,7 +123,7 @@ public class InquiryClientRequestHandler {
                 clientMsg.set_raw_request(ChannelRequestMsg);
                 clientMsg.set_raw_response(ChannelResponseMsg);
                 
-                log.info(FixstringLoger("Client Request Data"));
+                log.info(FixstringLoger("Channel Request Data"));
                 log.info(ObjectLoger(inquiryAgentResponse.responseDetail)+ObjectLoger(inquiryAgentResponse.inquiryAgentResponseData));
                 
                 interfaceLog.Insert(clientMsg);
@@ -137,15 +136,16 @@ public class InquiryClientRequestHandler {
         }
     }
     
-    private void LionExpress_InquiryClientHandler() throws IOException{
+    private void LionExpress_InquiryClientHandler(){
         
-        log.info(FixstringLoger("LionExpress_InquiryClientHandler")+partners.getWsdlPath());
+        log.info(FixstringLoger("LionExpress_InquiryClientHandler"));
+        log.info(partners.getWsdlPath());
         
         LionExpress lex = new LionExpress(partners);
         lex.setWsClient(wsClient);
         lex.InquiryClient(clientID);
-        
-        log.log(Level.INFO, "\n========================= Partner Request Data =========================\n{0}", partners.getWsdlPath());
+        log.info(FixstringLoger("Partner Request Data"));
+        log.info(FixstringLoger(partners.getWsdlPath()));
         log.info(ObjectLoger(lex.getPartnerRequestObject()));
         
         responDetail.responseCode = lex.getChannelResponseCode();
@@ -154,12 +154,81 @@ public class InquiryClientRequestHandler {
         PartnerResponseMsg        = lex.getPartnerRawResponse();
         
         LionExpress_InquiryClientResponse respon = (LionExpress_InquiryClientResponse) lex.getPartnerResponseObject();
-        
-        log.info("\n========================= Partner Response Data =========================\n");
+
+        log.info(FixstringLoger("Partner Response Data"));
         log.info(ObjectLoger(respon.InquiryClientResult));
         
         if(lex.getChannelResponseCode().equals("00")){ // kalo sukses aja
+            //{LPX-0001,Harapan Travel,01,Exist} 
+            responData.clientID     = respon.InquiryClientResult.Respond[0];
+            responData.clientName   = respon.InquiryClientResult.Respond[1];
+            responData.clientError  = respon.InquiryClientResult.Respond[2];
+            responData.clientDesc   = respon.InquiryClientResult.Respond[3];
             
+            inquiryAgentResponse.responseCode = lex.getChannelResponseCode();
+            inquiryAgentResponse.responseDetail = responDetail;
+            inquiryAgentResponse.inquiryAgentResponseData = responData;
+        }
+    }
+    
+    private void LionCargo_InquiryClientHandler(){
+    
+        log.info(FixstringLoger("LionCargo_InquiryClientHandler"));
+        log.info(partners.getWsdlPath());
+        
+        LionExpress lex = new LionExpress(partners);
+        lex.setWsClient(wsClient);
+        lex.InquiryClient(clientID);
+        log.info(FixstringLoger("Partner Request Data"));
+        log.info(FixstringLoger(partners.getWsdlPath()));
+        log.info(ObjectLoger(lex.getPartnerRequestObject()));
+        
+        responDetail.responseCode = lex.getChannelResponseCode();
+        responDetail.responseDesc = lex.getChannelResponseDesc();
+        PartnerRequestMsg         = lex.getPartnerRawRequest();
+        PartnerResponseMsg        = lex.getPartnerRawResponse();
+        
+        LionExpress_InquiryClientResponse respon = (LionExpress_InquiryClientResponse) lex.getPartnerResponseObject();
+
+        log.info(FixstringLoger("Partner Response Data"));
+        log.info(ObjectLoger(respon.InquiryClientResult));
+        
+        if(lex.getChannelResponseCode().equals("00")){ // kalo sukses aja
+            //{LPX-0001,Harapan Travel,01,Exist} 
+            responData.clientID     = respon.InquiryClientResult.Respond[0];
+            responData.clientName   = respon.InquiryClientResult.Respond[1];
+            responData.clientError  = respon.InquiryClientResult.Respond[2];
+            responData.clientDesc   = respon.InquiryClientResult.Respond[3];
+            
+            inquiryAgentResponse.responseCode = lex.getChannelResponseCode();
+            inquiryAgentResponse.responseDetail = responDetail;
+            inquiryAgentResponse.inquiryAgentResponseData = responData;
+        }    
+    }
+
+    private void CitiCargo_InquiryClientHandler() {
+    
+        log.info(FixstringLoger("CitiCargo_InquiryClientHandler"));
+        log.info(partners.getWsdlPath());
+        
+        CitiCargo lex = new CitiCargo(partners);
+        lex.setWsClient(wsClient);
+        lex.InquiryClient(clientID);
+        log.info(FixstringLoger("Partner Request Data"));
+        log.info(FixstringLoger(partners.getWsdlPath()));
+        log.info(ObjectLoger(lex.getPartnerRequestObject()));
+        
+        responDetail.responseCode = lex.getChannelResponseCode();
+        responDetail.responseDesc = lex.getChannelResponseDesc();
+        PartnerRequestMsg         = lex.getPartnerRawRequest();
+        PartnerResponseMsg        = lex.getPartnerRawResponse();
+        
+        CitiCargo_InquiryClientResponse respon = (CitiCargo_InquiryClientResponse) lex.getPartnerResponseObject();
+
+        log.info(FixstringLoger("Partner Response Data"));
+        log.info(ObjectLoger(respon.InquiryClientResult));
+        
+        if(lex.getChannelResponseCode().equals("00")){ // kalo sukses aja
             //{LPX-0001,Harapan Travel,01,Exist} 
             responData.clientID     = respon.InquiryClientResult.Respond[0];
             responData.clientName   = respon.InquiryClientResult.Respond[1];
@@ -193,7 +262,7 @@ public class InquiryClientRequestHandler {
             
             
             InquiryAgentRequestData ic = new InquiryAgentRequestData();            
-            ic.partnerID        = "lionexpress";
+            ic.partnerID        = "lioncargo";
             ic.clientID         = "LPX-0001";
             
             InquiryAgentRequest icr = new InquiryAgentRequest();
@@ -206,5 +275,7 @@ public class InquiryClientRequestHandler {
             m.InquiryClientService(icr);
             InquiryAgentResponse x = m.getInquiryAgentResponse();
     }
+
+   
     
 }

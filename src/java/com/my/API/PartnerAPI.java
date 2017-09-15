@@ -2,13 +2,12 @@
 package com.my.API;
 
 import com.my.DAO.MasterServices;
-import static com.my.Helper.General.FixString;
+import static com.my.Helper.General.FixstringLoger;
 import com.my.Helper.General.MessageID;
 import static com.my.Helper.General.dateToString;
 import com.my.Helper.GlobalProperty;
 import com.my.Helper.serviceObject.*;
 import com.my.Models.InterfaceLogModel;
-import com.my.Service.Partners;
 import com.my.main.InquiryClientRequestHandler;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,7 +35,7 @@ public class PartnerAPI {
     
     public PartnerAPI(){
         try {            
-            log.info("========================= Begin of Prepare PartnerAPI =========================");
+            log.info(FixstringLoger("Construct PartnerAPI"));
             ApplicationContext context  = new ClassPathXmlApplicationContext("configContext.xml");
             masterServices              = (MasterServices) context.getBean(MasterServices.class);
             interfaceLog                = (InterfaceLogModel)context.getBean("InterfaceLogModel");
